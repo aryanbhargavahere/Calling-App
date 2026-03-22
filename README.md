@@ -79,15 +79,12 @@ com.example.callingapp
 
 ---
 ## ScreenShots
-<img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/55e4a2d8-ed3f-4c5c-b315-72d37789c0b2" />
-<img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/ec0b41fa-8a07-42ea-8b47-1a2ed031ed89" />
-<img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/a483ce5c-be16-4851-9b13-33ef83e4c463" />
-<img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/a3b353f9-b3a8-4b88-8d7a-6a60cb9e79c4" />
+<img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/55e4a2d8-ed3f-4c5c-b315-72d37789c0b2" /><img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/ec0b41fa-8a07-42ea-8b47-1a2ed031ed89" /><img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/a483ce5c-be16-4851-9b13-33ef83e4c463" /><img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/a3b353f9-b3a8-4b88-8d7a-6a60cb9e79c4" />
 
 ---
 ## 🔮 Future Enhancements
 
-- **I'll Add Backend**
+- **Will be Adding Backend**
 - **Will Be Connecting It to Contacts**
 - **Add Hold Option**
 - **Add Video Call Option**
