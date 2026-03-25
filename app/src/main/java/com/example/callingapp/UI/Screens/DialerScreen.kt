@@ -1,87 +1,68 @@
 package com.example.callingapp.UI.Screens
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Call
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.example.callingapp.CallViewModel
-import com.example.callingapp.UI.DialButton
+import androidx.core.net.toUri
+
 
 @Composable
-fun DialerScreen(number: String, vm: CallViewModel) {
+fun DialerScreen() {
+    val context = LocalContext.current
+    var number by remember { mutableStateOf("") }
+
+    val numbers = listOf("1","2","3", "4","5","6", "7","8","9", "*","0","#")
+
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
+        modifier = Modifier.fillMaxSize().padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Text(
-            text = number,
-            fontSize = 48.sp,
-            maxLines = 1,
-            modifier = Modifier
-                .height(120.dp)
-                .padding(top = 40.dp)
-        )
+        Text(number, style = MaterialTheme.typography.headlineMedium)
 
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.height(20.dp))
 
-        val buttons = listOf("1","2","3","4","5","6","7","8","9","*","0","#")
-
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
-            modifier = Modifier.height(400.dp)
-        ) {
-            items(buttons) { digit ->
-                DialButton(digit = digit) {
-                    vm.digitInput(digit)
+        numbers.chunked(3).forEach { row ->
+            Row {
+                row.forEach { num ->
+                    Button(
+                        onClick = { number += num },
+                        modifier = Modifier.padding(8.dp).size(80.dp)
+                    ) {
+                        Text(num)
+                    }
                 }
             }
         }
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp)
-        ) {
-
-            IconButton(onClick = vm::onBackspace) {
-                Icon(Icons.Default.Delete, contentDescription = "Delete")
+        Row {
+            Button(onClick = {
+                if (number.isNotEmpty()) number = number.dropLast(1)
+            }) {
+                Text("⌫")
             }
 
-            FloatingActionButton(
-                onClick = vm::outgoingCall,
-                containerColor = Color(0xFF5DB075),
-                shape = CircleShape
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(horizontal = 20.dp)
-                ) {
-                    Icon(Icons.Default.Call, contentDescription = null, tint = Color.White)
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Text("Call", color = Color.White)
+            Spacer(modifier = Modifier.width(20.dp))
+
+            Button(onClick = {
+                val intent = Intent(Intent.ACTION_CALL).apply {
+                    data = Uri.parse("tel:$number")
                 }
-            }
-
-            TextButton(onClick = vm::incomingCall) {
-                Text("Incoming")
+                context.startActivity(intent)
+            }) {
+                Text("Call")
             }
         }
     }
