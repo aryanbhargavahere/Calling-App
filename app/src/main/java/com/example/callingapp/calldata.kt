@@ -6,10 +6,13 @@ import android.provider.ContactsContract
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CallRepository {
+class callrepo {
 
-    fun getCallLogs(context: Context): List<Calllogitem> {
+    fun getcalllogs(context: Context): List<Calllogitem> {
+
         val list = mutableListOf<Calllogitem>()
+
+        val contactsMap = getcontactsmap(context)
 
         val cursor = context.contentResolver.query(
             CallLog.Calls.CONTENT_URI,
@@ -24,6 +27,7 @@ class CallRepository {
             val durationIndex = it.getColumnIndexOrThrow(CallLog.Calls.DURATION)
 
             while (it.moveToNext()) {
+
                 val number = it.getString(numberIndex)
                 val typeInt = it.getInt(typeIndex)
                 val dateLong = it.getLong(dateIndex)
@@ -41,15 +45,22 @@ class CallRepository {
                     Locale.getDefault()
                 ).format(Date(dateLong))
 
-                list.add(Calllogitem(number, type, date, duration))
+                val name = contactsMap[number] ?: number
+
+                list.add(
+                    Calllogitem(name, number, type, date, duration)
+                )
             }
         }
 
         return list
     }
 
-    fun getContacts(context: Context): List<Contactsclass> {
+
+    fun getcontacts(context: Context): List<Contactsclass> {
+
         val list = mutableListOf<Contactsclass>()
+        val seen = mutableSetOf<String>()
 
         val cursor = context.contentResolver.query(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
@@ -66,13 +77,56 @@ class CallRepository {
             )
 
             while (it.moveToNext()) {
+
                 val name = it.getString(nameIndex)
                 val number = it.getString(numberIndex)
 
-                list.add(Contactsclass(name, number))
+                val uniquenum = distinctnumber(number)
+                val key = "$name-$uniquenum"
+
+                if (!seen.contains(key)) {
+                    seen.add(key)
+                    list.add(Contactsclass(name, number))
+                }
             }
         }
 
         return list
     }
+
+    private fun getcontactsmap(context: Context): Map<String, String> { // mainly to get the name of the contacts and show in logs
+
+        val map = mutableMapOf<String, String>()
+
+        val cursor = context.contentResolver.query(
+            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+            null, null, null, null
+        )
+
+        cursor?.use {
+            val nameIndex = it.getColumnIndexOrThrow(
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
+            )
+            val numberIndex = it.getColumnIndexOrThrow(
+                ContactsContract.CommonDataKinds.Phone.NUMBER
+            )
+
+            while (it.moveToNext()) {
+                val name = it.getString(nameIndex)
+                val number = it.getString(numberIndex)
+
+                map[number] = name
+            }
+        }
+
+        return map
+    }
+}
+
+private fun distinctnumber(number: String): String {
+    return number
+        .replace("\\s".toRegex(), "")
+        .replace("-", "")
+        .replace("+91", "")
+        .trim()
 }

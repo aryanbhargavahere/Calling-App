@@ -3,16 +3,18 @@ package com.example.callingapp.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.callingapp.CallRepository
 import com.example.callingapp.Calllogitem
 import com.example.callingapp.Contactsclass
+import com.example.callingapp.callrepo
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CallViewModel : ViewModel() {
 
-    private val repository = CallRepository()
+    private val repository = callrepo()
 
     private val _callLogs = MutableStateFlow<List<Calllogitem>>(emptyList())
     val callLogs: StateFlow<List<Calllogitem>> = _callLogs
@@ -22,17 +24,19 @@ class CallViewModel : ViewModel() {
 
     fun loadCallLogs(context: Context) {
         viewModelScope.launch {
-            _callLogs.value = repository.getCallLogs(context)
+            val logs = withContext(Dispatchers.IO) {
+                repository.getcalllogs(context)
+            }
+            _callLogs.value = logs
         }
     }
 
     fun loadContacts(context: Context) {
         viewModelScope.launch {
-            _contacts.value = repository.getContacts(context)
+            val list = withContext(Dispatchers.IO) {
+                repository.getcontacts(context)
+            }
+            _contacts.value = list
         }
-    }
-
-    fun refreshLogs(context: Context) {
-        loadCallLogs(context)
     }
 }
