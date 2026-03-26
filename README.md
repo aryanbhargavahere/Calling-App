@@ -1,7 +1,6 @@
 # Calling App
 
-A state driven calling app built using Kotlin and Jetpack Compose , demonstrating lifecycle of a
-calling app
+A state driven calling app built using Kotlin and Jetpack Compose calling app
 
 ---
 
@@ -29,8 +28,9 @@ It has proper built lifecycle IDLE , CALLING , RINGING , ACTIVE and ENDED.
 ## ✨ Features
 
 -  Has a Dialer Pad
--  Simulates Incoming Calls  
--  Simulates Outgoing Calls 
+-  Allows Outgoing Calls  
+-  Shows Logs and Contacts
+-  One click feature to call someone  
 
 ---
 
@@ -40,21 +40,47 @@ It has proper built lifecycle IDLE , CALLING , RINGING , ACTIVE and ENDED.
 - **Android SDK**
 - **JetPack Compose**
 ---
-
 ## 📂 Project Structure
-
 ```bash
-com.example.callingapp
-├── ui
-│   ├── screens
-│   │   ├── DialerScreen.kt    
-│   │   ├── OutgoingScreen.kt   
-│   │   ├── IncomingScreen.kt   
-│   │   └── ActiveCallScreen.kt 
-│   └── components
-│       └── CommonUI.kt        
-├── CallViewModel.kt            
-└── MainActivity.kt             
+Calling_App/
+├── app/
+│   ├── manifests/
+│   │   └── AndroidManifest.xml
+│   │
+│   ├── kotlin+java/
+│   │   └── com/example/callingapp/
+│   │       ├── UI/Screens/
+│   │       │   ├── CallLogs.kt
+│   │       │   ├── ContactsScreen.kt
+│   │       │   └── DialerScreen.kt
+│   │       │
+│   │       ├── ui/theme/
+│   │       │   ├── Color.kt
+│   │       │   ├── Theme.kt
+│   │       │   └── Type.kt
+│   │       │
+│   │       └── viewmodel/
+│   │           ├── CallViewModel.kt
+│   │           ├── calldata.kt
+│   │           ├── Calllogitem.kt
+│   │           ├── callreciever.kt
+│   │           ├── Contactsclass.kt
+│   │           └── MainActivity.kt
+│   │
+│   ├── res/
+│   │   ├── drawable/
+│   │   │   ├── ic_launcher_background.xml
+│   │   │   └── ic_launcher_foreground.xml
+│   │
+│   └── libs/
+│       └── versions.toml
+│
+└── Gradle Scripts/
+    ├── build.gradle.kts (Project: Calling_App)
+    ├── build.gradle.kts (Module: app)
+    ├── proguard-rules.pro
+    ├── gradle-wrapper.properties
+    └── settings.gradle
 ```
 ---
 ## Getting Started
@@ -73,21 +99,18 @@ com.example.callingapp
 ## 🧠 How the App Works
 
 1. User enters into a IDLE screen **Dialer Screen**
-2. User can then enter numbers and call or simulate the **Incoming Call**
-3. When user clicks on floating call button theyre taken to **Outgoing Call Screen**
-4. When the call is picked user is taken to **Active Call Screen**
+2. User can enter a number and click on the call button to call.
+3. Logs screen is also available which shows the previous call logs **Calllogs**
+4. Contact Screen is also available which displays all the contacts user can click on any contact to call them **ContactScreen**
 
 ---
 ## ScreenShots
-<img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/55e4a2d8-ed3f-4c5c-b315-72d37789c0b2" /><img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/ec0b41fa-8a07-42ea-8b47-1a2ed031ed89" /><img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/a483ce5c-be16-4851-9b13-33ef83e4c463" /><img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/a3b353f9-b3a8-4b88-8d7a-6a60cb9e79c4" />
+<img width="720" height="1600" alt="image" src="https://github.com/user-attachments/assets/1b8b69bb-da3d-4dda-85e8-6842c2c9e31b" />
 
 ---
 ## 🔮 Future Enhancements
-
-- **Will be Adding Backend**
-- **Will Be Connecting It to Contacts**
-- **Add Hold Option**
-- **Add Video Call Option**
+- Will be adding contacts profile
+- Will be adding a new interface to see calls with a user on a separate screen instead of all on Call logs
 ---
 ## Author
 - **Name:** Aryan
